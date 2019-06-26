@@ -6,7 +6,6 @@ const controllers = {
 
   post: ({ body }, res) => {
     if (body.step === 1) {
-      console.log(body.info);
       stepOne(body.info)
         .then(({id}) => res.status(201).send(id.toString()))
         .catch((err) => {

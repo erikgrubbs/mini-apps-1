@@ -4,13 +4,17 @@
   "description": "checkout process app",
   "main": "./server/index.js",
   "scripts": {
-    "build": "webpack -d --watch",
+    "build": "./node_modules/.bin/babel client --out-dir public --presets @babel/preset-react --source-maps inline --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon"
   },
   "author": "Erik Grubbs",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "axios": "^0.19.0",
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
     "babel-loader": "7",
