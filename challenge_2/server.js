@@ -30,43 +30,30 @@ const generatecsv = (json) => {
   genPerson(json);
   return csv;
 }
+app.use(express.static(__dirname + '/client'));
 
-// app.use('/csv', (req, res, next) => {
-//   var file = Buffer.alloc(0);
-//   req.on('data', (chunk) => {
-//     file = Buffer.concat([file, chunk]);
-//   });
-
-//   req.on('end', () => {
-//     console.log('///////////////', file.toString());
-//     next();
-//   })
-// });
 app.use('/csv', (req, res, next) => {
-  var body= "";
+  var file = Buffer.alloc(0);
   req.on('data', (chunk) => {
-    body+= chunk
+    file = Buffer.concat([file, chunk]);
   });
   req.on('end', () => {
-    let parts = body.split('=');
-    key = parts[0];
-    text = parts[1];
-    req.body = {
-      key: text
-    }
+    req.body = file.toString();
+    var beginOfJson = req.body.indexOf('{');
+    var endOfJson = req.body.lastIndexOf('}');
+    req.body = req.body.slice(beginOfJson, endOfJson + 1);
     console.log(req.body);
     next();
-  });
+  })
+
 });
 
 
 app.use(morgan('dev'));
 
-app.use(express.static(__dirname + '/client'));
-app.use('/client', express.static(__dirname + '/client'));
 
 app.post('/csv', (req, res) => {
-  var csv = generatecsv(JSON.parse(req.body.key))
+  var csv = generatecsv(JSON.parse(req.body))
   fs.writeFile(__dirname + '/csv_report.csv', csv, (err) => {
     if (err) {
       console.log(err);
@@ -78,5 +65,7 @@ app.post('/csv', (req, res) => {
 });
 
 
-
+app.get('/csv', (req, res) => {
+  res.sendFile(__dirname + '/csv_report.csv');
+})
 app.listen(3002), console.log('Listening on 3002!');

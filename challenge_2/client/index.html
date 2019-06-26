@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="../node_modules/jquery/dist/jquery.js"></script>
   <title>CSV Report Generator</title>
 </head>
 <body>
-  <form method="post" enctype="application/x-www-form-urlencoded" action="/csv" id="form">
-    <input type="text" name="report">
+  <form method="post" enctype="multipart/form-data" action="/csv" id="form">
+    <input type="file" name="report">
     <input type="submit">
   </form>
+  <a href="/csv" download>Download last CSV</a>
   <script src="client/app.js"></script>
 </body>
 </html>
