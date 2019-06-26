@@ -10,25 +10,35 @@ class App extends React.Component {
     }
     this.sendInfo = this.sendInfo.bind(this);
     this.finish = this.finish.bind(this);
+    this.goBack = this.goBack.bind(this);
+    this.begin = this.begin.bind(this);
+  }
+
+  goBack() {
+    this.setState({
+      step: this.state.step - 1
+    })
   }
 
   sendInfo(step, info) {
     axios.post('/api', { step, info, id: this.state.id })
-      .then(({ data }) => {
-        if (this.state.step === 1) {
-          this.setState({
-            step: step + 1,
-            id: data
-          });
-        } else {
+      .then(() => {
           this.setState({
             step: step + 1
           });
-        }
       })
       .catch(() => console.log('error sending info'));
   }
 
+  begin() {
+    axios.post('/api', {step: 0})
+    .then(({data}) => {
+      this.setState({
+        step: 1,
+        id: data
+      })
+    });
+  }
 
   finish() {
     this.setState({
@@ -40,28 +50,28 @@ class App extends React.Component {
     if (this.state.step === 0) {
       return (
         <div>
-          <button onClick={() => this.setState({ step: 1 })}>Purchase</button>
+          <button onClick={this.begin}>Purchase</button>
         </div>
       );
     }
     if (this.state.step === 1) {
       return (
-        <StepOne sendInfo={this.sendInfo} id={this.state.id} />
+        <StepOne back={this.goBack} sendInfo={this.sendInfo} id={this.state.id} />
       );
     }
     if (this.state.step === 2) {
       return (
-        <StepTwo sendInfo={this.sendInfo} id={this.state.id} />
+        <StepTwo back={this.goBack} sendInfo={this.sendInfo} id={this.state.id} />
       );
     }
     if (this.state.step === 3) {
       return (
-        <StepThree sendInfo={this.sendInfo} id={this.state.id} />
+        <StepThree back={this.goBack}  sendInfo={this.sendInfo} id={this.state.id} />
       );
     }
     if (this.state.step === 4) {
       return (
-        <Finished finish={this.finish} id={this.state.id} />
+        <Finished back={this.goBack} finish={this.finish} id={this.state.id} />
       );
     }
   }
@@ -105,6 +115,7 @@ class StepOne extends React.Component {
 
   render() {
     return (
+    <div>
       <form onSubmit={this.handleSubmit}>
         <h4> Enter Customer Info</h4>
         <label>Enter Name</label>
@@ -115,6 +126,9 @@ class StepOne extends React.Component {
         <input type="text" name="password" onChange={this.handleChange} value={this.state.password}></input>
         <button>Next</button>
       </form>
+        <br></br>
+        <button onClick={this.props.back}>Go back</button>
+      </div>
     )
   }
 }
@@ -172,6 +186,7 @@ class StepTwo extends React.Component {
 
   render() {
     return (
+      <div>
       <form onSubmit={this.handleSubmit}>
         <h4>Enter Address</h4>
         <label>Enter Line 1</label>
@@ -189,6 +204,9 @@ class StepTwo extends React.Component {
         <input type="text" name="phoneNumber" onChange={this.handleChange} value={this.state.password}></input>
         <button>Next</button>
       </form>
+      <br></br>
+        <button onClick={this.props.back}>Go back</button>
+        </div>
     )
   }
 }
@@ -233,6 +251,7 @@ class StepThree extends React.Component {
 
   render() {
     return (
+      <div>
       <form onSubmit={this.handleSubmit}>
         <h4> Purchase Info</h4>
         <label>Enter Credit Card</label>
@@ -243,6 +262,9 @@ class StepThree extends React.Component {
         <input type="text" name="billingZip" onChange={this.handleChange} value={this.state.password}></input>
         <button>Review</button>
       </form>
+      <br></br>
+        <button onClick={this.props.back}>Go back</button>
+        </div>
     )
   }
 }
@@ -277,6 +299,7 @@ class Finished extends React.Component {
   render() {
     return this.state.loaded ? 
       (
+       <div> 
       <div>
         <h4>Customer Info</h4>
         <p>Name: {this.state.customer.name}<br></br>
@@ -293,6 +316,10 @@ class Finished extends React.Component {
           <button onClick={this.props.finish}>Confirm Purchase</button>
         </p>
       </div>
+      <br></br>
+        <button onClick={this.props.back}>Go back</button>
+     </div>
+        
     ) : <div>loading</div>
   }
 }

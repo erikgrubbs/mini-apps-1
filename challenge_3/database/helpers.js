@@ -8,8 +8,12 @@ const helpers = {
     return Customer.findOne({where: {id}})
   },
 
-  stepOne: ({name, email, password}) => {
-    return Customer.create({ name, email, password})
+  createCustomer: () => {
+    return Customer.create();
+  },
+
+  stepOne: (id, {name, email, password}) => {
+    return Customer.update({ name, email, password}, {where: {id}});
   },
 
   stepTwo: (id, {address, phoneNumber}) => {
