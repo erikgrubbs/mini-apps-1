@@ -28,11 +28,21 @@ const generatecsv = (json) => {
     }
   }
   genPerson(json);
-  console.log(csv);
   return csv;
 }
 
-app.use('/', (req, res, next) => {
+// app.use('/csv', (req, res, next) => {
+//   var file = Buffer.alloc(0);
+//   req.on('data', (chunk) => {
+//     file = Buffer.concat([file, chunk]);
+//   });
+
+//   req.on('end', () => {
+//     console.log('///////////////', file.toString());
+//     next();
+//   })
+// });
+app.use('/csv', (req, res, next) => {
   var body= "";
   req.on('data', (chunk) => {
     body+= chunk
@@ -44,15 +54,18 @@ app.use('/', (req, res, next) => {
     req.body = {
       key: text
     }
+    console.log(req.body);
     next();
   });
 });
 
 
 app.use(morgan('dev'));
-app.use(express.static(__dirname + '/client/'));
 
-app.post('/', (req, res) => {
+app.use(express.static(__dirname + '/client'));
+app.use('/client', express.static(__dirname + '/client'));
+
+app.post('/csv', (req, res) => {
   var csv = generatecsv(JSON.parse(req.body.key))
   fs.writeFile(__dirname + '/csv_report.csv', csv, (err) => {
     if (err) {
