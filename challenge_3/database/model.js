@@ -35,11 +35,11 @@ const Customer = db.define('customer', {
     allowNull: true
   },
   phoneNumber: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: true
   }, 
   ccn: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: true
   },
   cvv: {
