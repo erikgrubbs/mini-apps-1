@@ -53,6 +53,7 @@ const Customer = db.define('customer', {
 
 }, {timestamps: false});
 
+
 db.sync();
 
 module.exports = Customer;

@@ -3,6 +3,10 @@ const Customer = require('./model.js');
 
 
 const helpers = {
+  loginCompare: (email) => {
+    return Customer.findOne({where: {email}})
+  }, 
+  
   getCompleteCustomer: (id) => {
     // attempt promise ?
     return Customer.findOne({where: {id}})
