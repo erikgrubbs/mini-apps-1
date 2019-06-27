@@ -1,9 +1,16 @@
 const router = require('express').Router();
-const controllers = require('./controllers.js');
+const {customerInfo, authentication} = require('./controllers.js');
 
 router
   .route('/api')
-  .post(controllers.post)
-  .get(controllers.get)
+  .post(customerInfo.post)
+  .get(customerInfo.get)
+
+router
+  .route('/login')
+  .get((req, res) => {
+    res.send('hi');
+  })
+  .post(authentication.login);
 
 module.exports = router;

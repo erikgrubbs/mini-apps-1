@@ -5,6 +5,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loggedIn: false,
       step: 0,
       id: null,
     }
@@ -47,6 +48,7 @@ class App extends React.Component {
   }
 
   render() {
+
     if (this.state.step === 0) {
       return (
         <div>
@@ -324,5 +326,28 @@ class Finished extends React.Component {
   }
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////
+class login extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+}
+
+
+class createAccount extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: '',
+      email: '',
+      password: ''
+    }
+  }
+}
 /*-------Starting----------*/
 ReactDOM.render(<App />, document.getElementById('app'));
