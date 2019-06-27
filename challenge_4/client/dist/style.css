@@ -1,0 +1,40 @@
+
+
+.spot {
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.red {
+  display: inline-block;
+  border: 8px solid red;
+  border-radius: 100%;
+}
+
+.yellow {
+  display: inline-block;
+  border: 8px solid yellow;
+  border-radius: 100%;
+
+}
+
+.empty {
+  display: inline-block;
+  border: 8px solid white;
+  border-radius: 100%;
+
+
+}
+
+.board {
+  width: 40%;
+  position: relative;
+  text-align: center;
+}
+
+.boardField {
+  border: 5px solid blue;
+  background-color: rgb(145, 204, 255);
+
+}

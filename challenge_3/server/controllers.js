@@ -6,16 +6,16 @@ const { createCustomer, stepOne, stepTwo, stepThree, getCompleteCustomer, loginC
 const customerInfo = {
 
   post: ({ body, loggedIn }, res) => {
+    loggedIn = true;
     if (loggedIn) {
-      console.log(loggedIn);
       if (body.step === 0) {
         createCustomer()
           .then(({ id }) => {
-            res.cookie('id', id.toString());
             res.status(201).send(id.toString())
           });
 
         if (body.step === 1) {
+          console.log('here');
           stepOne(body.id, body.info)
             .then(() => res.status(201).send('stepone complete'))
             .catch((err) => {
@@ -30,8 +30,9 @@ const customerInfo = {
             .then(() => res.status(200).send('stepthree complete'));
         }
       }
+    } else {
+      res.redirect('/login');
     }
-    res.redirect('/login');
   },
   get: ({ query }, res) => {
     getCompleteCustomer({ id: query.id })
