@@ -21,7 +21,7 @@ class Row extends React.Component {
     return (
       <div>
         {this.props.row.map((color , i) => (
-        <span key={i}><span className={"spot " + color} onClick={this.clickHandle} name={i}></span></span>
+        <span key={i}><span className={`spot ${color} column${i}`} onClick={this.clickHandle} name={i}></span></span>
         ))}
       </div>
     );
